@@ -1,4 +1,4 @@
-import Head from 'next/head'
+/*import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -111,4 +111,47 @@ export default function Home() {
       </main>
     </>
   )
+}
+*/
+import { useState } from "react";
+
+export default function Home() {
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+
+  const handleAddSchool = async () => {
+    try {
+      const response = await fetch("/api/addSchool", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, location }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error adding school:", error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Add School</h1>
+      <input
+        type="text"
+        placeholder="School Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Location"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+      />
+      <button onClick={handleAddSchool}>Add School</button>
+    </div>
+  );
 }
